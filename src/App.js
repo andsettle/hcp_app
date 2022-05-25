@@ -11,16 +11,18 @@ function App() {
       const users = data.map(mapUsers);
       console.log(users);
 
+      const authData = {
+        userid: "andsettle1@gmail.com",
+        password: "3d0612aa153448d3b8231d766e6ea910",
+        outputtype: "json",
+        users: users,
+      };
+
       let fetchData = {
         method: "POST",
-        body:
-          {
-            userid: "andsettle1@gmail.com",
-            password: "3d0612aa153448d3b8231d766e6ea910",
-            outputtype: "Json",
-          } + JSON.stringify(users),
+        body: JSON.stringify(authData),
         headers: new Headers({
-          "Content-Type": "application/json; charset=UTF-8",
+          "Content-Type": "application/x-www-form-urlencoded",
         }),
       };
 
@@ -29,6 +31,7 @@ function App() {
   };
 
   const mapUsers = (user) => {
+    const phone = getCleanPhone(user.phone);
     let newUsers = {
       first_name: user.name.split(" ")[0],
       last_name: user.name.split(" ")[1],
@@ -42,9 +45,20 @@ function App() {
         ", " +
         user.address.zipcode,
       website: user.website,
-      phone: user.phone,
+      phone: phone,
     };
     return newUsers;
+  };
+
+  const getCleanPhone = (number) => {
+    const numNoSpace = number.split(" ");
+    const cleanNum = numNoSpace[0].replace(/\W/g, "");
+
+    if (cleanNum.length > 10) {
+      return cleanNum.substring(1);
+    }
+
+    return cleanNum;
   };
 
   const onError = (err) => {
