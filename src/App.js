@@ -13,13 +13,12 @@ function App() {
 
       let fetchData = {
         method: "POST",
-        body: JSON.stringify(
+        body:
           {
             userid: "andsettle1@gmail.com",
             password: "3d0612aa153448d3b8231d766e6ea910",
             outputtype: "Json",
-          } + users
-        ),
+          } + JSON.stringify(users),
         headers: new Headers({
           "Content-Type": "application/json; charset=UTF-8",
         }),
